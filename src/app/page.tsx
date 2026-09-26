@@ -77,7 +77,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
       <div className="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-100">
         <div className="flex justify-center mb-6">
-          <Image src="/logo.jpg" alt="โลโก้ห้องเรียนสีขาว" width={150} height={150} className="object-contain" />
+          <Image src="/logo.png" alt="โลโก้ห้องเรียนสีขาว" width={150} height={150} className="object-contain" />
         </div>
         <h1 className="text-2xl font-bold text-center text-emerald-800 mb-2">ระบบลงชื่อกิจกรรม</h1>
         <p className="text-gray-500 text-center mb-8">โครงการห้องเรียนสีขาว</p>
@@ -143,3 +143,4 @@ export default function Home() {
     </div>
   );
 }
+
