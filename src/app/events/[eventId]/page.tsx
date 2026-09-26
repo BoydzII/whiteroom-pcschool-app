@@ -184,7 +184,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
                   className={`flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50 ${isPresent ? '' : 'bg-red-50'}`}
                 >
                   <div>
-                    <div className="font-bold text-gray-800">{s.prefix}{s.firstName} {s.lastName}</div>
+                    <div className="font-bold text-gray-800">{s.fullName}</div>
                     <div className="text-sm text-gray-500">รหัส: {s.studentId} | เลขที่: {s.number}</div>
                   </div>
                   <div>
