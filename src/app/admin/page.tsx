@@ -28,15 +28,15 @@ export default function AdminDashboard() {
   }, []);
 
   const fetchData = async () => {
-    const resE = await fetch('/api/events');
+    const resE = await fetch('/api/events?t=' + Date.now());
     const dataE = await resE.json();
     if(dataE.success) setEvents(dataE.events);
 
-    const resR = await fetch('/api/rooms');
+    const resR = await fetch('/api/rooms?t=' + Date.now());
     const dataR = await resR.json();
     if(dataR.success) setRooms(dataR.rooms);
 
-    const resA = await fetch('/api/attendance');
+    const resA = await fetch('/api/attendance?t=' + Date.now());
     const dataA = await resA.json();
     if(dataA.success) setAttendance(dataA.attendance);
   };

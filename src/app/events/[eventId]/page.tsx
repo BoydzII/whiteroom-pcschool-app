@@ -31,7 +31,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
 
   const fetchData = async (roomName: string) => {
     // 1. Fetch Event Details
-    const res = await fetch('/api/events');
+    const res = await fetch('/api/events?t=' + Date.now());
     const data = await res.json();
     const ev = data.events?.find((e: any) => e.eventId === params.eventId);
     if (!ev) {

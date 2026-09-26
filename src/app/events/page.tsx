@@ -18,7 +18,7 @@ export default function EventsPage() {
   }, []);
 
   const fetchEvents = async () => {
-    const res = await fetch('/api/events');
+    const res = await fetch('/api/events?t=' + Date.now());
     const data = await res.json();
     if (data.success) setEvents(data.events);
     setLoading(false);

@@ -23,7 +23,7 @@ export default function Home() {
 
   const fetchRooms = async () => {
     try {
-      const res = await fetch('/api/rooms');
+      const res = await fetch('/api/rooms?t=' + Date.now());
       const data = await res.json();
       if (data.success) {
         setRooms(data.rooms || []);
