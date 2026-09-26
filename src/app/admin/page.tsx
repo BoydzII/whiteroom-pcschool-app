@@ -2,6 +2,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import * as XLSX from 'xlsx';
 import { Plus, CheckCircle, XCircle, Search } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -18,6 +19,11 @@ export default function AdminDashboard() {
   const [extraFieldLabel, setExtraFieldLabel] = useState('');
   const [hasAttachment, setHasAttachment] = useState(false);
   const [loading, setLoading] = useState(false);
+
+
+  // Excel Upload State
+  const [uploadingExcel, setUploadingExcel] = useState(false);
+  const [excelStatus, setExcelStatus] = useState('');
 
   // Search Filters
   const [searchEvent, setSearchEvent] = useState('');
@@ -65,6 +71,58 @@ export default function AdminDashboard() {
     }
   };
 
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingExcel(true);
+    setExcelStatus('กำลังอ่านไฟล์ Excel...');
+
+    const reader = new FileReader();
+    reader.onload = async (evt) => {
+      try {
+        const bstr = evt.target?.result;
+        const wb = XLSX.read(bstr, { type: 'binary' });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        const data = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+
+        // Ensure we skip headers and take rows
+        const studentRows = data.filter(row => row.length >= 4 && row[0] !== 'roomName');
+        
+        if (studentRows.length === 0) {
+          alert('ไม่พบข้อมูล หรือรูปแบบคอลัมน์ไม่ถูกต้อง (ต้องมี roomName, studentId, number, fullName)');
+          setUploadingExcel(false);
+          setExcelStatus('');
+          return;
+        }
+
+        setExcelStatus(`กำลังอัปโหลดนักเรียน ${studentRows.length} คน ไปยังฐานข้อมูล... (อาจใช้เวลา 5-10 วินาที)`);
+        
+        const res = await fetch('/api/students', {
+          method: 'POST',
+          body: JSON.stringify({ students: studentRows })
+        });
+        const result = await res.json();
+        
+        if (result.success) {
+          alert(`อัปโหลดรายชื่อสำเร็จ ${result.count} คน!`);
+        } else {
+          alert('เกิดข้อผิดพลาด: ' + result.error);
+        }
+      } catch (err: any) {
+        alert('อ่านไฟล์ล้มเหลว: ' + err.message);
+      } finally {
+        setUploadingExcel(false);
+        setExcelStatus('');
+        // reset input
+        e.target.value = '';
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
+
   const filteredEvents = events.filter(ev => String(ev.eventName).toLowerCase().includes(searchEvent.toLowerCase()));
   const filteredRooms = rooms.filter(rm => String(rm.roomName).toLowerCase().includes(searchRoom.toLowerCase()));
 
@@ -75,6 +133,7 @@ export default function AdminDashboard() {
       <div className="flex gap-2 mb-6">
         <button onClick={()=>setActiveTab('events')} className={`px-6 py-3 rounded-full font-bold shadow-md transition ${activeTab === 'events' ? 'bg-gradient-to-r from-red-700 to-red-900 text-white' : 'bg-white border-2 border-gray-200 text-red-800 hover:bg-red-50'}`}>จัดการกิจกรรม</button>
         <button onClick={()=>setActiveTab('reports')} className={`px-6 py-3 rounded-full font-bold shadow-md transition ${activeTab === 'reports' ? 'bg-gradient-to-r from-red-700 to-red-900 text-white' : 'bg-white border-2 border-gray-200 text-red-800 hover:bg-red-50'}`}>ดูรายงานการส่ง</button>
+        <button onClick={()=>setActiveTab('students')} className={`px-6 py-3 rounded-full font-bold shadow-md transition ${activeTab === 'students' ? 'bg-gradient-to-r from-red-700 to-red-900 text-white' : 'bg-white border-2 border-gray-200 text-red-800 hover:bg-red-50'}`}>จัดการรายชื่อนักเรียน</button>
       </div>
 
       {activeTab === 'events' && (
@@ -166,6 +225,34 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
+
+      {activeTab === 'students' && (
+        <div className="bg-white p-6 rounded-3xl shadow-xl border-2 border-gray-200 text-center max-w-2xl mx-auto mt-8">
+          <h2 className="text-2xl font-bold mb-4 text-red-900">อัปโหลดรายชื่อนักเรียนทั้งหมด (Excel)</h2>
+          <p className="text-gray-600 mb-6 text-sm">
+            เตรียมไฟล์ Excel (.xlsx) ให้คอลัมน์เรียงตามนี้ (ไม่มีหัวตารางก็ได้): <br/>
+            <b>คอลัมน์ A:</b> ชื่อห้อง (เช่น ม.4/1)<br/>
+            <b>คอลัมน์ B:</b> รหัสนักเรียน<br/>
+            <b>คอลัมน์ C:</b> เลขที่<br/>
+            <b>คอลัมน์ D:</b> ชื่อ-นามสกุล (เช่น ด.ช. สมชาย ใจดี)
+          </p>
+          
+          <div className="border-4 border-dashed border-red-200 bg-red-50 p-8 rounded-3xl">
+            {uploadingExcel ? (
+              <div className="text-red-800 font-bold animate-pulse">{excelStatus}</div>
+            ) : (
+              <div>
+                <label className="cursor-pointer bg-gradient-to-r from-red-700 to-red-900 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:from-red-800 hover:to-red-950 transition inline-block">
+                  เลือกไฟล์ Excel เพื่ออัปโหลด
+                  <input type="file" accept=".xlsx, .xls, .csv" onChange={handleFileUpload} className="hidden" />
+                </label>
+              </div>
+            )}
+          </div>
+          <p className="text-red-500 text-xs mt-4 font-bold">* คำเตือน: การอัปโหลดไฟล์ใหม่ จะลบข้อมูลรายชื่อนักเรียนเก่าในระบบทิ้งทั้งหมด และแทนที่ด้วยไฟล์นี้</p>
+        </div>
+      )}
+
     </div>
   );
 }
