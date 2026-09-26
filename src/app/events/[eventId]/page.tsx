@@ -41,26 +41,24 @@ export default function AttendancePage({ params }: { params: { eventId: string }
     }
     setEvent(ev);
 
-    // 2. Load Students from CSV
-    const resCsv = await fetch('/student_template.csv');
-    const csvText = await resCsv.text();
-    Papa.parse(csvText, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        // Filter students for this room
-        const roomStudents = results.data.filter((s: any) => String(s.Class).trim() === roomName.trim());
-        setStudents(roomStudents);
-        
-        // Initialize all as Present by default (easier for teachers)
-        const att: any = {};
-        roomStudents.forEach((s: any) => {
-          att[s.ID] = true; 
-        });
-        setAttendance(att);
-        setLoading(false);
-      }
-    });
+    // 2. Load Students from API (Google Sheets)
+    const resStu = await fetch(`/api/students?roomName=${encodeURIComponent(roomName)}&t=` + Date.now());
+    const dataStu = await resStu.json();
+    if (dataStu.success) {
+      const roomStudents = dataStu.students || [];
+      // Sort by number if possible
+      roomStudents.sort((a:any, b:any) => parseInt(a.number) - parseInt(b.number));
+      setStudents(roomStudents);
+      
+      const att: any = {};
+      roomStudents.forEach((s: any) => {
+        att[s.studentId] = true; 
+      });
+      setAttendance(att);
+    } else {
+      alert("ไม่สามารถดึงรายชื่อนักเรียนได้");
+    }
+    setLoading(false);
   };
 
   const toggleStudent = (id: string) => {
@@ -121,7 +119,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-emerald-600 text-white p-6 shadow-md">
+      <div className="bg-gradient-to-r from-red-700 to-red-900 text-white p-6 shadow-md">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl font-bold">{event.eventName}</h1>
           <p className="opacity-90">ห้อง {localStorage.getItem('wr_roomName')} | นักเรียนทั้งหมด {students.length} คน</p>
@@ -132,8 +130,8 @@ export default function AttendancePage({ params }: { params: { eventId: string }
         
         {/* Extra Fields Section */}
         {(event.hasExtraField === 'YES' || event.hasAttachment === 'YES') && (
-          <div className="bg-white p-6 rounded-3xl shadow-xl border-2 border-emerald-300">
-            <h2 className="text-xl font-bold mb-4 text-emerald-800">ข้อมูลเพิ่มเติม</h2>
+          <div className="bg-white p-6 rounded-3xl shadow-xl border-2 border-red-200">
+            <h2 className="text-xl font-bold mb-4 text-red-900">ข้อมูลเพิ่มเติม</h2>
             
             {event.hasExtraField === 'YES' && (
               <div className="mb-4">
@@ -142,7 +140,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
                   type="text" 
                   value={extraValue} 
                   onChange={e=>setExtraValue(e.target.value)} 
-                  className="w-full border-2 border-emerald-200 p-3 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none" 
+                  className="w-full border-2 border-gray-200 p-3 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" 
                   placeholder="กรอกข้อมูลที่นี่..."
                 />
               </div>
@@ -152,12 +150,12 @@ export default function AttendancePage({ params }: { params: { eventId: string }
               <div>
                 <label className="block text-sm font-bold mb-1">แนบรูปภาพ/หลักฐาน</label>
                 {fileBase64 ? (
-                  <div className="flex items-center gap-2 p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                  <div className="flex items-center gap-2 p-3 bg-red-50 border border-gray-200 rounded-lg">
                     <span className="truncate flex-1">{fileName}</span>
                     <button onClick={()=>{setFileBase64(''); setFileName('');}} className="text-red-500 p-1 hover:bg-red-50 rounded"><X size={20}/></button>
                   </div>
                 ) : (
-                  <button onClick={() => fileInputRef.current?.click()} className="w-full p-4 border-4 border-dashed border-emerald-200 rounded-3xl text-gray-500 hover:bg-gray-50 flex flex-col items-center gap-2">
+                  <button onClick={() => fileInputRef.current?.click()} className="w-full p-4 border-4 border-dashed border-gray-200 rounded-3xl text-gray-500 hover:bg-gray-50 flex flex-col items-center gap-2">
                     <Upload size={24} /> แตะเพื่อเลือกรูปภาพ
                   </button>
                 )}
@@ -168,30 +166,30 @@ export default function AttendancePage({ params }: { params: { eventId: string }
         )}
 
         {/* Attendance Section */}
-        <div className="bg-white rounded-3xl shadow-xl border-2 border-emerald-300 overflow-hidden">
+        <div className="bg-white rounded-3xl shadow-xl border-2 border-red-200 overflow-hidden">
           <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
             <h2 className="text-lg font-bold">เช็คชื่อเข้าร่วม</h2>
             <div className="flex gap-4 text-sm font-bold">
-              <span className="text-emerald-600">มา {presentCount}</span>
+              <span className="text-red-700">มา {presentCount}</span>
               <span className="text-red-600">ขาด {absentCount}</span>
             </div>
           </div>
           <div className="divide-y max-h-[60vh] overflow-y-auto">
             {students.map(s => {
-              const isPresent = attendance[s.ID];
+              const isPresent = attendance[s.studentId];
               return (
                 <div 
-                  key={s.ID} 
-                  onClick={() => toggleStudent(s.ID)}
+                  key={s.studentId} 
+                  onClick={() => toggleStudent(s.studentId)}
                   className={`flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50 ${isPresent ? '' : 'bg-red-50'}`}
                 >
                   <div>
-                    <div className="font-bold text-gray-800">{s.Prefix}{s.FirstName} {s.LastName}</div>
-                    <div className="text-sm text-gray-500">รหัส: {s.ID} | เลขที่: {s.Number}</div>
+                    <div className="font-bold text-gray-800">{s.prefix}{s.firstName} {s.lastName}</div>
+                    <div className="text-sm text-gray-500">รหัส: {s.studentId} | เลขที่: {s.number}</div>
                   </div>
                   <div>
                     {isPresent ? (
-                      <CheckSquare size={28} className="text-emerald-500" />
+                      <CheckSquare size={28} className="text-red-600" />
                     ) : (
                       <Square size={28} className="text-red-400" />
                     )}
@@ -208,7 +206,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
         <button 
           onClick={handleSubmit} 
           disabled={submitting}
-          className="w-full max-w-4xl mx-auto flex justify-center items-center gap-2 bg-emerald-600 text-white font-bold py-4 rounded-xl hover:bg-emerald-700 disabled:opacity-50"
+          className="w-full max-w-4xl mx-auto flex justify-center items-center gap-2 bg-gradient-to-r from-red-700 to-red-900 text-white font-bold py-4 rounded-xl hover:bg-red-950 disabled:opacity-50"
         >
           <Save size={24} />
           {submitting ? "กำลังบันทึกข้อมูล..." : "บันทึกและส่งข้อมูล"}

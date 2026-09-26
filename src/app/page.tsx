@@ -75,13 +75,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-[2rem] shadow-2xl border-4 border-emerald-200 max-w-md w-full border border-gray-100">
+      <div className="bg-white p-8 rounded-[2rem] shadow-2xl border-4 border-gray-200 max-w-md w-full border border-gray-100">
         <div className="flex justify-center items-center gap-6 mb-4">
           <Image src="/school-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={80} height={80} className="object-contain" />
           <Image src="/logo.png" alt="โลโก้ห้องเรียนสีขาว" width={90} height={90} className="object-contain" />
         </div>
         <h2 className="text-lg font-bold text-center text-gray-700 mb-1">โรงเรียนปากช่อง จังหวัดนครราชสีมา</h2>
-        <h1 className="text-2xl font-bold text-center text-emerald-800 mb-2">ระบบลงชื่อกิจกรรม</h1>
+        <h1 className="text-2xl font-bold text-center text-red-900 mb-2">ระบบลงชื่อกิจกรรม</h1>
         <p className="text-gray-500 text-center mb-8">โครงการห้องเรียนสีขาว</p>
 
         <form onSubmit={handleLogin} className="space-y-5">
@@ -93,7 +93,7 @@ export default function Home() {
                 <select
                   value={selectedRoom}
                   onChange={(e) => setSelectedRoom(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-emerald-100 rounded-3xl focus:ring-2 focus:ring-emerald-500 outline-none appearance-none"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-red-100 rounded-3xl focus:ring-2 focus:ring-red-500 outline-none appearance-none"
                   required={!isAdminLogin}
                 >
                   <option value="">-- เลือกห้องเรียน --</option>
@@ -116,7 +116,7 @@ export default function Home() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="กรอกรหัสผ่าน"
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-emerald-100 rounded-3xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-red-100 rounded-3xl focus:ring-2 focus:ring-red-500 outline-none"
                 required
               />
             </div>
@@ -124,7 +124,7 @@ export default function Home() {
 
           <button
             type="submit"
-            className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-3xl flex justify-center items-center gap-2 hover:bg-emerald-700 transition-colors"
+            className="w-full bg-gradient-to-r from-red-700 to-red-900 text-white font-semibold py-3 rounded-3xl flex justify-center items-center gap-2 hover:bg-red-950 transition-colors"
           >
             <LogIn size={20} />
             {isAdminLogin ? "เข้าสู่ระบบ (แอดมิน)" : "เข้าสู่ห้องเรียน"}
@@ -134,7 +134,7 @@ export default function Home() {
             <button 
               type="button" 
               onClick={() => setIsAdminLogin(!isAdminLogin)}
-              className="text-gray-500 text-sm font-medium hover:text-emerald-600 flex items-center justify-center gap-1 mx-auto"
+              className="text-gray-500 text-sm font-medium hover:text-red-700 flex items-center justify-center gap-1 mx-auto"
             >
               <Key size={16} />
               {isAdminLogin ? "กลับไปหน้าเข้าระบบห้องเรียน" : "เข้าสู่ระบบสำหรับแอดมินใหญ่"}

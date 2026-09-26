@@ -1,33 +1,14 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 
-const GAS_URL = process.env.GAS_URL || process.env.NEXT_PUBLIC_GAS_URL || 'https://script.google.com/macros/s/AKfycbwZ41bQSF9OSKl9x7e0cd7_C_9KH4Z8W83GpxmJmdUlh28KGUSKCCpstDQP2bxOt9LVdg/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx9GklGAyE0_T10RZaRUmPrYoELLIUNOCbv5STxDcCZDFd1NQkHH763RRiUclna4mDjwg/exec';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    if (GAS_URL) {
-      const res = await fetch(`${GAS_URL}?action=get_students`, { cache: 'no-store', next: { revalidate: 0 } });
-      const result = await res.json();
-      return NextResponse.json(result);
-    }
-    return NextResponse.json({ success: true, students: [] });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    const data = await request.json();
-    if (GAS_URL) {
-      const res = await fetch(GAS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return NextResponse.json(await res.json());
-    }
-    return NextResponse.json({ success: true });
+    const { searchParams } = new URL(request.url);
+    const roomName = searchParams.get('roomName') || '';
+    const res = await fetch(`${GAS_URL}?action=get_students&roomName=${encodeURIComponent(roomName)}`, { cache: 'no-store' });
+    return NextResponse.json(await res.json());
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
