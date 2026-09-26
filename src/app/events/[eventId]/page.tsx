@@ -124,7 +124,7 @@ export default function AttendancePage() {
       <div className="bg-gradient-to-r from-red-700 to-red-900 text-white p-6 shadow-md">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl font-bold">{event.eventName}</h1>
-          <p className="opacity-90">ห้อง {localStorage.getItem('wr_roomName')} | นักเรียนทั้งหมด {students.length} คน</p>
+          <p className="opacity-90">ห้อง {localStorage.getItem('wr_roomName')} | รายชื่อนักเรียน {students.length} คน</p>
         </div>
       </div>
 
@@ -170,9 +170,9 @@ export default function AttendancePage() {
         {/* Attendance Section */}
         <div className="bg-white rounded-3xl shadow-xl border-2 border-red-200 overflow-hidden">
           <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
-            <h2 className="text-lg font-bold">เช็คชื่อเข้าร่วม</h2>
+            <h2 className="text-lg font-bold">รายชื่อผู้เข้าร่วมกิจกรรม</h2>
             <div className="flex gap-4 text-sm font-bold">
-              <span className="text-red-700">มา {presentCount}</span>
+              <span className="text-red-700">เข้าร่วม {presentCount}</span>
               <span className="text-red-600">ขาด {absentCount}</span>
             </div>
           </div>
