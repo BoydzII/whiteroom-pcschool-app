@@ -36,7 +36,7 @@ export default function EventsPage() {
             <h2 className="text-xl font-bold text-gray-800 mb-2">{ev.eventName}</h2>
             <div className="text-gray-500 text-sm">วันที่จัด: {ev.date}</div>
             <div className="mt-4 bg-red-50 text-red-800 text-center py-2 rounded-lg font-bold">
-              คลิกเพื่อเช็คชื่อเข้ากิจกรรม
+              ลงชื่อเข้าร่วมกิจกรรม
             </div>
           </Link>
         ))}
