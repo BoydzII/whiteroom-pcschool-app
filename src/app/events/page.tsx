@@ -1,5 +1,6 @@
 
 "use client";
+import Loader from '@/components/Loader';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -24,7 +25,7 @@ export default function EventsPage() {
     setLoading(false);
   };
 
-  if (loading) return <div className="p-8 text-center">กำลังโหลด...</div>;
+  if (loading) return <Loader />;
 
   return (
     <div className="p-4 max-w-4xl mx-auto">

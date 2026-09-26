@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from '@/components/Loader';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, Users, Lock, LogIn, Key } from 'lucide-react';
@@ -70,7 +71,7 @@ export default function Home() {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-gray-50">กำลังโหลด...</div>;
+    return <Loader />;
   }
 
   return (

@@ -1,5 +1,6 @@
 
 "use client";
+import Loader from '@/components/Loader';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Papa from 'papaparse';
@@ -112,7 +113,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
     }
   };
 
-  if (loading) return <div className="p-8 text-center">กำลังเตรียมรายชื่อนักเรียน...</div>;
+  if (loading) return <Loader />;
 
   const presentCount = Object.values(attendance).filter(v => v).length;
   const absentCount = students.length - presentCount;
