@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
 
 export const metadata: Metadata = {
   title: "ระบบกิจกรรมห้องเรียนสีขาว",
@@ -22,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th">
-      <body className={`${geistSans.variable} antialiased`}>
+      <body className="antialiased">
         <Navbar />
         {children}
       </body>
