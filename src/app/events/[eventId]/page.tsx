@@ -173,7 +173,7 @@ export default function AttendancePage() {
             <h2 className="text-lg font-bold">รายชื่อผู้เข้าร่วมกิจกรรม</h2>
             <div className="flex gap-4 text-sm font-bold">
               <span className="text-red-700">เข้าร่วม {presentCount}</span>
-              <span className="text-red-600">ขาด {absentCount}</span>
+              <span className="text-red-600">ไม่เข้าร่วม {absentCount}</span>
             </div>
           </div>
           <div className="divide-y max-h-[60vh] overflow-y-auto">
