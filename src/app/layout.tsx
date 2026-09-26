@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import { Sarabun } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+
+const sarabun = Sarabun({
+  subsets: ["thai", "latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-sarabun",
+});
 
 export const metadata: Metadata = {
   title: "ระบบกิจกรรมห้องเรียนสีขาว",
@@ -15,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th">
-      <body className="antialiased">
+      <body className={`${sarabun.variable} antialiased`} style={{ fontFamily: "'Times New Roman', var(--font-sarabun), sans-serif" }}>
         <Navbar />
         {children}
       </body>

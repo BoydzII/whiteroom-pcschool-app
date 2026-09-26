@@ -75,7 +75,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-100">
+      <div className="bg-white p-8 rounded-[2rem] shadow-2xl border-4 border-emerald-200 max-w-md w-full border border-gray-100">
         <div className="flex justify-center items-center gap-6 mb-4">
           <Image src="/school-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={80} height={80} className="object-contain" />
           <Image src="/logo.png" alt="โลโก้ห้องเรียนสีขาว" width={90} height={90} className="object-contain" />
@@ -93,7 +93,7 @@ export default function Home() {
                 <select
                   value={selectedRoom}
                   onChange={(e) => setSelectedRoom(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none appearance-none"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-emerald-100 rounded-3xl focus:ring-2 focus:ring-emerald-500 outline-none appearance-none"
                   required={!isAdminLogin}
                 >
                   <option value="">-- เลือกห้องเรียน --</option>
@@ -116,7 +116,7 @@ export default function Home() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="กรอกรหัสผ่าน"
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-emerald-100 rounded-3xl focus:ring-2 focus:ring-emerald-500 outline-none"
                 required
               />
             </div>
@@ -124,7 +124,7 @@ export default function Home() {
 
           <button
             type="submit"
-            className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-xl flex justify-center items-center gap-2 hover:bg-emerald-700 transition-colors"
+            className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-3xl flex justify-center items-center gap-2 hover:bg-emerald-700 transition-colors"
           >
             <LogIn size={20} />
             {isAdminLogin ? "เข้าสู่ระบบ (แอดมิน)" : "เข้าสู่ห้องเรียน"}

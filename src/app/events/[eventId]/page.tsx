@@ -132,7 +132,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
         
         {/* Extra Fields Section */}
         {(event.hasExtraField === 'YES' || event.hasAttachment === 'YES') && (
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-emerald-100">
+          <div className="bg-white p-6 rounded-3xl shadow-xl border-2 border-emerald-300">
             <h2 className="text-xl font-bold mb-4 text-emerald-800">ข้อมูลเพิ่มเติม</h2>
             
             {event.hasExtraField === 'YES' && (
@@ -142,7 +142,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
                   type="text" 
                   value={extraValue} 
                   onChange={e=>setExtraValue(e.target.value)} 
-                  className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" 
+                  className="w-full border-2 border-emerald-200 p-3 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none" 
                   placeholder="กรอกข้อมูลที่นี่..."
                 />
               </div>
@@ -157,7 +157,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
                     <button onClick={()=>{setFileBase64(''); setFileName('');}} className="text-red-500 p-1 hover:bg-red-50 rounded"><X size={20}/></button>
                   </div>
                 ) : (
-                  <button onClick={() => fileInputRef.current?.click()} className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 flex flex-col items-center gap-2">
+                  <button onClick={() => fileInputRef.current?.click()} className="w-full p-4 border-4 border-dashed border-emerald-200 rounded-3xl text-gray-500 hover:bg-gray-50 flex flex-col items-center gap-2">
                     <Upload size={24} /> แตะเพื่อเลือกรูปภาพ
                   </button>
                 )}
@@ -168,7 +168,7 @@ export default function AttendancePage({ params }: { params: { eventId: string }
         )}
 
         {/* Attendance Section */}
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+        <div className="bg-white rounded-3xl shadow-xl border-2 border-emerald-300 overflow-hidden">
           <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
             <h2 className="text-lg font-bold">เช็คชื่อเข้าร่วม</h2>
             <div className="flex gap-4 text-sm font-bold">
