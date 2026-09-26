@@ -35,7 +35,7 @@ export default function Navbar() {
               className="flex items-center gap-1 hover:text-red-200"
             >
               <LogOut size={20} />
-              <span className="hidden sm:inline">ออกระบบ</span>
+              <span>ออกระบบ</span>
             </button>
           )}
         </div>
