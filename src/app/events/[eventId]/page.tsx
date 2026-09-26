@@ -2,12 +2,13 @@
 "use client";
 import Loader from '@/components/Loader';
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Papa from 'papaparse';
 import { Upload, Save, CheckSquare, Square, X } from 'lucide-react';
 
-export default function AttendancePage({ params }: { params: { eventId: string } }) {
+export default function AttendancePage() {
   const router = useRouter();
+  const params = useParams();
   const [event, setEvent] = useState<any>(null);
   const [students, setStudents] = useState<any[]>([]);
   const [attendance, setAttendance] = useState<any>({}); // {[id]: true/false}
