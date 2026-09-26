@@ -11,6 +11,8 @@ export default function AdminDashboard() {
   const [events, setEvents] = useState<any[]>([]);
   const [rooms, setRooms] = useState<any[]>([]);
   const [attendance, setAttendance] = useState<any[]>([]);
+  const [allStudents, setAllStudents] = useState<any[]>([]);
+  const [searchStudent, setSearchStudent] = useState('');
   
   // New Event State
   const [eventName, setEventName] = useState('');
@@ -49,6 +51,11 @@ export default function AdminDashboard() {
     const resA = await fetch('/api/attendance?t=' + Date.now());
     const dataA = await resA.json();
     if(dataA.success) setAttendance(dataA.attendance);
+
+    const resS = await fetch('/api/students?t=' + Date.now());
+    const dataS = await resS.json();
+    if(dataS.success) setAllStudents(dataS.students);
+
   };
 
   const handleCreateEvent = async (e: React.FormEvent) => {
@@ -108,6 +115,7 @@ export default function AdminDashboard() {
         
         if (result.success) {
           alert(`อัปโหลดรายชื่อสำเร็จ ${result.count} คน!`);
+          fetchData();
         } else {
           alert('เกิดข้อผิดพลาด: ' + result.error);
         }
@@ -124,6 +132,7 @@ export default function AdminDashboard() {
   };
 
   const filteredEvents = events.filter(ev => String(ev.eventName).toLowerCase().includes(searchEvent.toLowerCase()));
+  const filteredStudents = allStudents.filter(s => String(s.roomName).toLowerCase().includes(searchStudent.toLowerCase()) || String(s.fullName).toLowerCase().includes(searchStudent.toLowerCase()));
   const filteredRooms = rooms.filter(rm => String(rm.roomName).toLowerCase().includes(searchRoom.toLowerCase()));
 
   return (
@@ -227,7 +236,7 @@ export default function AdminDashboard() {
       )}
 
       {activeTab === 'students' && (
-        <div className="bg-white p-6 rounded-3xl shadow-xl border-2 border-gray-200 text-center max-w-2xl mx-auto mt-8">
+        <div className="bg-white p-6 rounded-3xl shadow-xl border-2 border-gray-200 text-center max-w-4xl mx-auto mt-8">
           <h2 className="text-2xl font-bold mb-4 text-red-900">อัปโหลดรายชื่อนักเรียนทั้งหมด (Excel)</h2>
           <p className="text-gray-600 mb-6 text-sm">
             เตรียมไฟล์ Excel (.xlsx) ให้คอลัมน์เรียงตามนี้ (ไม่มีหัวตารางก็ได้): <br/>
@@ -249,7 +258,46 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
-          <p className="text-red-500 text-xs mt-4 font-bold">* คำเตือน: การอัปโหลดไฟล์ใหม่ จะลบข้อมูลรายชื่อนักเรียนเก่าในระบบทิ้งทั้งหมด และแทนที่ด้วยไฟล์นี้</p>
+          <p className="text-red-500 text-xs mt-4 font-bold mb-8">* คำเตือน: การอัปโหลดไฟล์ใหม่ จะลบข้อมูลรายชื่อนักเรียนเก่าในระบบทิ้งทั้งหมด และแทนที่ด้วยไฟล์นี้</p>
+
+          {/* Student Viewer */}
+          <div className="mt-8 border-t-2 border-gray-100 pt-8 text-left">
+            <h3 className="text-xl font-bold text-red-900 mb-4">รายชื่อนักเรียนในระบบตอนนี้ ({allStudents.length} คน)</h3>
+            
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input type="text" placeholder="ค้นหาชื่อห้อง (เช่น ม.4/1) หรือชื่อนักเรียน..." value={searchStudent} onChange={e=>setSearchStudent(e.target.value)} className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-red-400 outline-none" />
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border-2 border-gray-200">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-red-50 text-red-900 uppercase">
+                  <tr>
+                    <th className="px-4 py-3">ห้อง</th>
+                    <th className="px-4 py-3">รหัส</th>
+                    <th className="px-4 py-3">เลขที่</th>
+                    <th className="px-4 py-3">ชื่อ-สกุล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredStudents.slice(0, 50).map((s, i) => (
+                    <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="px-4 py-3 font-bold">{s.roomName}</td>
+                      <td className="px-4 py-3">{s.studentId}</td>
+                      <td className="px-4 py-3">{s.number}</td>
+                      <td className="px-4 py-3">{s.fullName}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {filteredStudents.length > 50 && (
+              <div className="text-center text-gray-500 mt-4 text-xs">* แสดงผลการค้นหาสูงสุด 50 รายการ (จากทั้งหมด {filteredStudents.length}) เพื่อความรวดเร็ว</div>
+            )}
+            {filteredStudents.length === 0 && (
+              <div className="text-center text-gray-500 mt-4 py-8">ไม่พบรายชื่อนักเรียนในระบบ (กรุณาอัปโหลดไฟล์ Excel)</div>
+            )}
+          </div>
         </div>
       )}
 
