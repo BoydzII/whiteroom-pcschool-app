@@ -27,7 +27,7 @@ export default function AppHub() {
       title: 'สั่งและส่งการบ้าน',
       description: 'ระบบแจ้งเตือนการบ้าน กำหนดส่ง และอัปโหลดใบงาน',
       icon: <BookOpen size={48} className="text-emerald-600" />,
-      url: 'https://homework-app-url.vercel.app', // เปลี่ยนเป็น URL ของแอปการบ้าน
+      url: 'https://homework-pcschool-app.vercel.app',
       bg: 'bg-emerald-50',
       border: 'border-emerald-200',
       hover: 'hover:border-emerald-400 hover:shadow-emerald-200'
