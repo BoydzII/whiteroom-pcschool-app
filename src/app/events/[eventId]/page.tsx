@@ -78,6 +78,23 @@ export default function AttendancePage() {
     }
   };
 
+  
+  const handleSelectAll = () => {
+    const att: any = {};
+    students.forEach((s: any) => {
+      att[s.studentId] = true;
+    });
+    setAttendance(att);
+  };
+
+  const handleClearAll = () => {
+    const att: any = {};
+    students.forEach((s: any) => {
+      att[s.studentId] = false;
+    });
+    setAttendance(att);
+  };
+
   const handleSubmit = async () => {
     if (event.hasExtraField === 'YES' && !extraValue) {
       return alert(`กรุณากรอก: ${event.extraFieldLabel}`);
@@ -169,11 +186,17 @@ export default function AttendancePage() {
 
         {/* Attendance Section */}
         <div className="bg-white rounded-3xl shadow-xl border-2 border-red-200 overflow-hidden">
-          <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
-            <h2 className="text-lg font-bold">รายชื่อผู้เข้าร่วมกิจกรรม</h2>
-            <div className="flex gap-4 text-sm font-bold">
-              <span className="text-red-700">เข้าร่วม {presentCount}</span>
-              <span className="text-red-600">ไม่เข้าร่วม {absentCount}</span>
+          <div className="flex flex-col gap-2 p-4 bg-gray-50 border-b">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-bold">รายชื่อผู้เข้าร่วมกิจกรรม</h2>
+              <div className="flex gap-4 text-sm font-bold">
+                <span className="text-red-700">เข้าร่วม {presentCount}</span>
+                <span className="text-red-600">ไม่เข้าร่วม {absentCount}</span>
+              </div>
+            </div>
+            <div className="flex gap-2 mt-2">
+              <button onClick={handleSelectAll} className="flex-1 py-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-xl font-bold text-sm transition">เลือกทั้งหมด</button>
+              <button onClick={handleClearAll} className="flex-1 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-bold text-sm transition">ล้างข้อมูล</button>
             </div>
           </div>
           <div className="divide-y max-h-[60vh] overflow-y-auto">
