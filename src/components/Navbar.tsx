@@ -24,6 +24,11 @@ export default function Navbar() {
           {role === 'admin' && <span className="font-medium bg-red-950 px-3 py-1 rounded-lg">แอดมิน</span>}
           {role === 'room' && <span className="font-medium bg-red-950 px-3 py-1 rounded-lg">ห้อง {room}</span>}
           
+
+          <Link href="/hub" className="flex items-center gap-1 hover:text-red-200 bg-red-800/50 px-3 py-1.5 rounded-xl transition">
+            <span className="hidden sm:inline">ศูนย์รวมแอป</span>
+            <span className="sm:hidden">แอป</span>
+          </Link>
           {role && (
             <button 
               onClick={() => {
