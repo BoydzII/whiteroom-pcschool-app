@@ -13,7 +13,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-gradient-to-r from-red-700 to-red-900 text-white p-4 shadow-md sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-red-700 to-red-900 text-white p-4 shadow-md sticky top-0 z-50 border-b-[3px] border-white">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <Link href="/" className="font-bold text-lg flex items-center gap-2">
           <ShieldCheck size={24} />
