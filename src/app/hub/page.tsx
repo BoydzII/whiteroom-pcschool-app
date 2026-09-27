@@ -36,7 +36,7 @@ export default function AppHub() {
       title: 'เช็คชื่อเข้าร่วมกิจกรรม',
       description: 'ระบบลงทะเบียนและเช็คชื่อผู้เข้าร่วมกิจกรรมต่างๆ ของโรงเรียน',
       icon: <CalendarCheck size={48} className="text-purple-600" />,
-      url: 'https://activity-app-url.vercel.app', // เปลี่ยนเป็น URL ของแอปกิจกรรม
+      url: 'https://activity-app-ten.vercel.app',
       bg: 'bg-purple-50',
       border: 'border-purple-200',
       hover: 'hover:border-purple-400 hover:shadow-purple-200'
