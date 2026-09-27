@@ -40,14 +40,13 @@ export default function AppHub() {
         
         {/* Header */}
         <div className="flex flex-col items-center mb-12 text-center">
-          <div className="w-32 h-32 overflow-hidden rounded-full flex items-center justify-center mb-6 shadow-2xl border-4 border-white bg-white">
-            <Image 
-              src="/logo.png" 
-              alt="School Logo" 
-              width={200} 
-              height={200} 
-              className="max-w-none object-cover transform scale-[1.7] translate-y-3" 
-            />
+          <div className="flex justify-center items-center gap-6 mb-6">
+            <div className="w-28 h-28 flex items-center justify-center bg-white rounded-2xl shadow-xl p-2 border-2 border-gray-100">
+              <Image src="/pcschool-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={90} height={90} className="object-contain" />
+            </div>
+            <div className="w-28 h-28 flex items-center justify-center bg-white rounded-full shadow-xl p-2 border-2 border-gray-100">
+              <Image src="/padauk-logo.jpg" alt="ลูกแดงขาว" width={90} height={90} className="object-contain rounded-full" />
+            </div>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">ศูนย์รวมแอปพลิเคชัน</h1>
           <p className="text-gray-500 text-lg">โรงเรียนปากช่อง จังหวัดนครราชสีมา</p>

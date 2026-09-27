@@ -42,16 +42,13 @@ export default function Loader() {
       {/* Center Logo with Pulse */}
       <div className="relative z-10 flex flex-col items-center animate-pulse-slow">
         
-        {/* CSS Crop to show only the flower bunch in the center */}
-        <div className="w-28 h-28 overflow-hidden rounded-full flex items-center justify-center mb-6 shadow-2xl border-4 border-red-50 bg-white">
-          <Image 
-            src="/logo.png" 
-            alt="Loading" 
-            width={200} 
-            height={200} 
-            className="max-w-none object-cover transform scale-[1.7] translate-y-3" 
-            priority
-          />
+        <div className="flex justify-center items-center gap-4 mb-6">
+          <div className="w-24 h-24 flex items-center justify-center bg-white rounded-2xl shadow-xl p-2 border-2 border-red-50">
+            <Image src="/pcschool-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={80} height={80} className="object-contain" priority />
+          </div>
+          <div className="w-24 h-24 flex items-center justify-center bg-white rounded-full shadow-xl p-1 border-2 border-red-50">
+            <Image src="/padauk-logo.jpg" alt="ลูกแดงขาว" width={85} height={85} className="object-contain rounded-full" priority />
+          </div>
         </div>
 
         <h2 className="text-xl font-bold text-red-800 tracking-wider">กำลังโหลดข้อมูล...</h2>

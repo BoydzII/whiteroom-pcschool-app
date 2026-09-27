@@ -77,9 +77,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
       <div className="bg-white p-8 rounded-[2rem] shadow-2xl border-4 border-gray-200 max-w-md w-full border border-gray-100">
-        <div className="flex justify-center items-center gap-6 mb-4">
-          <Image src="/school-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={80} height={80} className="object-contain" />
-          <Image src="/logo.png" alt="โลโก้ห้องเรียนสีขาว" width={90} height={90} className="object-contain" />
+        <div className="flex justify-center items-center gap-6 mb-6">
+          <Image src="/pcschool-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={90} height={90} className="object-contain drop-shadow-md" />
+          <Image src="/padauk-logo.jpg" alt="ลูกแดงขาว" width={90} height={90} className="object-contain drop-shadow-md rounded-full" />
         </div>
         <h2 className="text-lg font-bold text-center text-gray-700 mb-1">โรงเรียนปากช่อง จังหวัดนครราชสีมา</h2>
         <h1 className="text-2xl font-bold text-center text-red-900 mb-2">ระบบลงชื่อกิจกรรม</h1>
