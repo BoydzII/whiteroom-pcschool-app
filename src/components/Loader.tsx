@@ -20,7 +20,7 @@ export default function Loader() {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-white/90 z-[100] flex flex-col items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 bg-white/95 z-[100] flex flex-col items-center justify-center overflow-hidden">
       {/* Falling Petals Background */}
       {petals.map((petal) => (
         <div
@@ -42,13 +42,9 @@ export default function Loader() {
       {/* Center Logo with Pulse */}
       <div className="relative z-10 flex flex-col items-center animate-pulse-slow">
         
-        <div className="flex justify-center items-center gap-4 mb-6">
-          <div className="w-24 h-24 flex items-center justify-center bg-white rounded-2xl shadow-xl p-2 border-2 border-red-50">
-            <Image src="/pcschool-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={80} height={80} className="object-contain" priority />
-          </div>
-          <div className="w-24 h-24 flex items-center justify-center bg-white rounded-full shadow-xl p-1 border-2 border-red-50">
-            <Image src="/padauk-logo.jpg" alt="ลูกแดงขาว" width={85} height={85} className="object-contain rounded-full" priority />
-          </div>
+        <div className="flex justify-center items-end gap-6 mb-8 relative z-10 bg-white/80 p-4 rounded-full blur-none">
+          <Image src="/pcschool-logo.jpg" alt="ตราโรงเรียนปากช่อง" width={90} height={90} className="object-contain" priority />
+          <Image src="/padauk-logo.jpg" alt="ลูกแดงขาว" width={90} height={90} className="object-contain rounded-full" priority />
         </div>
 
         <h2 className="text-xl font-bold text-red-800 tracking-wider">กำลังโหลดข้อมูล...</h2>
