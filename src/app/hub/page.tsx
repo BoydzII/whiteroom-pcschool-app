@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShieldCheck, Sparkles, BookOpen } from 'lucide-react';
+import { ShieldCheck, Sparkles, BookOpen, CalendarCheck } from 'lucide-react';
 
 export default function AppHub() {
   const apps = [
@@ -31,12 +31,21 @@ export default function AppHub() {
       bg: 'bg-emerald-50',
       border: 'border-emerald-200',
       hover: 'hover:border-emerald-400 hover:shadow-emerald-200'
+    },
+    {
+      title: 'เช็คชื่อเข้าร่วมกิจกรรม',
+      description: 'ระบบลงทะเบียนและเช็คชื่อผู้เข้าร่วมกิจกรรมต่างๆ ของโรงเรียน',
+      icon: <CalendarCheck size={48} className="text-purple-600" />,
+      url: 'https://activity-app-url.vercel.app', // เปลี่ยนเป็น URL ของแอปกิจกรรม
+      bg: 'bg-purple-50',
+      border: 'border-purple-200',
+      hover: 'hover:border-purple-400 hover:shadow-purple-200'
     }
   ];
 
   return (
     <div className="min-h-screen bg-white bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-center p-6">
-      <div className="max-w-4xl w-full">
+      <div className="max-w-6xl w-full">
         
         {/* Header */}
         <div className="flex flex-col items-center mb-12 text-center">
@@ -49,7 +58,7 @@ export default function AppHub() {
         </div>
 
         {/* App Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {apps.map((app, index) => (
             <Link href={app.url} key={index} target={app.url.startsWith('http') ? "_blank" : "_self"}>
               <div className={`flex flex-col items-center text-center p-8 rounded-3xl border-2 ${app.border} ${app.bg} shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl ${app.hover} h-full cursor-pointer bg-white`}>
