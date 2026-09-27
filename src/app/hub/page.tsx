@@ -18,7 +18,7 @@ export default function AppHub() {
       title: 'เวรทำความสะอาด',
       description: 'ระบบเช็คชื่อการทำเวรทำความสะอาดประจำวันของนักเรียน',
       icon: <Sparkles size={48} className="text-blue-600" />,
-      url: 'https://duty-app-url.vercel.app', // เปลี่ยนเป็น URL ของแอปเวร
+      url: 'https://duty-app-beryl.vercel.app',
       bg: 'bg-blue-50',
       border: 'border-blue-200',
       hover: 'hover:border-blue-400 hover:shadow-blue-200'
